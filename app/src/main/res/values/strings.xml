@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MvpAwesomeTvShow</string>
+
+    <string name="db_store_fail">Uneable to store localy</string>
+    <string name="db_store_success">Local data store was successful</string>
+
+</resources>
