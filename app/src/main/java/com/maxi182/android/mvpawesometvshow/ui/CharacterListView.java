@@ -21,4 +21,6 @@ public interface CharacterListView {
     void showProgress();
 
     void hideProgress();
+
+    void onFavChanged(int pos);
 }

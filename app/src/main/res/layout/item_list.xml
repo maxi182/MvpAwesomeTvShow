@@ -105,15 +105,25 @@
                 android:layout_height="match_parent"
                 android:background="@color/divider" />
 
-            <ImageView
-                android:id="@+id/img_fav"
-                android:layout_width="0dp"
-                android:layout_height="24dip"
+
+            <FrameLayout
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:src="@drawable/ic_vector_favorite_border_24dp"
-                android:textColor="@color/secondary_text"
-                tools:text="230 \nStars" />
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_vector_favorite_border_24dp"
+                    android:textColor="@color/secondary_text"
+                    tools:text="230 \nStars" />
+
+
+            </FrameLayout>
 
 
         </LinearLayout>

@@ -3,6 +3,7 @@ package com.maxi182.android.mvpawesometvshow.interactor;
 import android.util.Log;
 
 import com.maxi182.android.mvpawesometvshow.api.RestClient;
+import com.maxi182.android.mvpawesometvshow.model.Character;
 import com.maxi182.android.mvpawesometvshow.model.TvShow;
 
 import io.realm.Realm;
@@ -30,16 +31,17 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
             public void onResponse(Call<RealmList<TvShow>> call, Response<RealmList<TvShow>> response) {
 
                 if (response.body() != null) {
+
                     storeLocal(callback, response.body());
-                    callback.onFetchDataSuccess(response.body());
+
                 } else {
+
                     callback.onFetchDataFailed(response.message());
+
                 }
             }
-
             @Override
             public void onFailure(Call<RealmList<TvShow>> call, Throwable t) {
-
 
                 callback.onFetchDataFailed(t.getMessage());
 
@@ -60,6 +62,7 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
             @Override
             public void onSuccess() {
                 callback.onStoreCompleted(true);
+                callback.onFetchDataSuccess(getRealmList());
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -82,11 +85,15 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
 
     }
 
-    public void fetchShowsLocal(final RequestCallback callback) {
+    private RealmList<TvShow> getRealmList() {
         RealmList<TvShow> list = new RealmList<>();
         list.addAll(getRealmData());
-        callback.onFetchDataSuccess(list);
+        return list;
 
+    }
+
+    public void fetchShowsLocal(final RequestCallback callback) {
+        callback.onFetchDataSuccess(getRealmList());
     }
 
     @Override
@@ -99,15 +106,35 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
         }
     }
 
-    @Override
-    public void addToFavorite(int id) {
-
-    }
 
     @Override
-    public void removeFromFavorite(int id) {
+    public void handleFavorite(final RequestCallback callback, final Character character, final int pos) {
 
+        final TvShow tvShow = getRealmList().get(0);
+
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+
+                Character selected = tvShow.results.get(getCharacterId(tvShow, character));
+                selected.isFav = !selected.isFav;
+                mRealm.copyToRealmOrUpdate(tvShow);
+                callback.onFavChanged(pos);
+
+            }
+        });
     }
+
+    private int getCharacterId(TvShow tvShow, Character character) {
+        int len = tvShow.results.size();
+        for (int i = 0; i < len; i++) {
+            if (character.equals(tvShow.results.get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     @Override
     public void attachView() {
@@ -128,5 +155,4 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
         closeRealm();
 
     }
-
 }

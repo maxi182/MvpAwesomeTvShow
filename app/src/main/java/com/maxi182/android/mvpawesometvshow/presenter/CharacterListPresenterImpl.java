@@ -2,6 +2,7 @@ package com.maxi182.android.mvpawesometvshow.presenter;
 
 import com.maxi182.android.mvpawesometvshow.interactor.TvShowInteractorCallback;
 import com.maxi182.android.mvpawesometvshow.interactor.TvShowInteractorImpl;
+import com.maxi182.android.mvpawesometvshow.model.Character;
 import com.maxi182.android.mvpawesometvshow.model.TvShow;
 import com.maxi182.android.mvpawesometvshow.ui.CharacterListView;
 
@@ -22,26 +23,18 @@ public class CharacterListPresenterImpl implements CharacterListPresenter<Charac
         this.characterListView = characterListView;
     }
 
-
     @Override
     public void getCharacters() {
         if (characterListView != null) {
             characterListView.showProgress();
         }
         tvShowInteractorCallback.fetchShows(this);
-
     }
 
     @Override
-    public void handleFavorite(int id) {
+    public void handleFavorite(Character character, int pos) {
 
-
-
-//        if (add) {
-//            tvShowInteractorCallback.addToFavorite(id);
-//        } else {
-//            tvShowInteractorCallback.removeFromFavorite(id);
-//        }
+        tvShowInteractorCallback.handleFavorite(this, character, pos);
     }
 
     @Override
@@ -64,7 +57,6 @@ public class CharacterListPresenterImpl implements CharacterListPresenter<Charac
         }
     }
 
-
     @Override
     public void onFetchDataFailed(String error) {
 
@@ -85,6 +77,11 @@ public class CharacterListPresenterImpl implements CharacterListPresenter<Charac
 
             }
         }
+    }
+
+    @Override
+    public void onFavChanged(int pos) {
+        characterListView.onFavChanged(pos);
     }
 
 }

@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
     private CharactersAdapter mAdapter;
     private ImageView mImageCloud;
     private FrameLayout mProgress;
+    private boolean mState;
 
     public static Intent getNewIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +60,10 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
 
     private void setupRecyclerView(RecyclerView recyclerView) {
 
-        mAdapter = new CharactersAdapter(this, this);
+        mAdapter = new CharactersAdapter(this, this, mState);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
 
@@ -112,14 +113,20 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
     }
 
     @Override
+    public void onFavChanged(int pos) {
+
+        mAdapter.notifyItemChanged(pos);
+    }
+
+    @Override
     public void onItemPress() {
 
     }
 
     @Override
-    public void onFavPress(int id) {
+    public void onFavPress(Character character, int pos) {
 
-        presenter.handleFavorite(id);
+        presenter.handleFavorite(character, pos);
 
     }
 }
