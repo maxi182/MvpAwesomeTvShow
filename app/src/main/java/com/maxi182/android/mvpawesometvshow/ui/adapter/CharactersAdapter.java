@@ -8,6 +8,9 @@ import android.animation.AnimatorSet;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,16 +40,14 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
     private AdapterCallbacks mCallbacks;
     private List<Character> mList;
     private boolean mAnimate;
-    private boolean mState;
     private final Map<RecyclerView.ViewHolder, AnimatorSet> likeAnimations = new HashMap<>();
 
     private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
     private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
 
-    public CharactersAdapter(Context context, AdapterCallbacks callbacks, boolean state) {
+    public CharactersAdapter(Context context, AdapterCallbacks callbacks) {
         this.mContext = context;
         this.mCallbacks = callbacks;
-        this.mState = state;
         this.mList = Collections.emptyList();
 
     }
@@ -63,8 +64,8 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
     public void onBindViewHolder(final CharactersAdapterHolder holder, final int position) {
         final Character user = mList.get(position);
 
-        holder.text_name.setText(user.Name);
-        holder.text_chapters.setText(String.valueOf(user.chapters));
+        holder.text_name.setText(user.name);
+        holder.text_chapters.setText(characterText(String.valueOf(user.chapters)));
         holder.text_ocupation.setText(user.occupation);
         holder.img_fav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,12 +83,19 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
         }
 
         Glide.with(holder.itemView.getContext())
-                .load(user.ImgUrl)
+                .load(user.imgUrl)
                 .placeholder(ContextCompat.getDrawable(mContext, R.drawable.ic_vector_profile_circle))
                 .centerCrop()
                 .dontAnimate()
                 .into(holder.img_pic);
 
+    }
+
+    private Spannable characterText(String chaptersCant) {
+        String strChapters = mContext.getResources().getString(R.string.chapters);
+        Spannable span = new SpannableString(chaptersCant.concat("\n".concat(strChapters)));
+        span.setSpan(new RelativeSizeSpan(2f), 0, chaptersCant.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return span;
     }
 
     private void handleFavIcon(CharactersAdapterHolder holder, Character character) {

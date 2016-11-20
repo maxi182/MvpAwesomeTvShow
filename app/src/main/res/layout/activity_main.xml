@@ -4,10 +4,6 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.maxi182.android.mvpawesometvshow.ui.MainActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -18,7 +14,6 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/item_list" />
 
-
     <include layout="@layout/partial_progress_bar" />
 
     <ImageView
@@ -28,5 +23,10 @@
         android:layout_centerInParent="true"
         android:src="@drawable/ic_vector_cloud_off_black_24dp"
         android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/container_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

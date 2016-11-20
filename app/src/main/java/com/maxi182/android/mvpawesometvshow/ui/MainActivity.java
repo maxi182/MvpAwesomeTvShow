@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
     private CharactersAdapter mAdapter;
     private ImageView mImageCloud;
     private FrameLayout mProgress;
-    private boolean mState;
 
     public static Intent getNewIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
 
         presenter.getCharacters();
 
-
     }
 
     @Override
@@ -57,15 +55,13 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
         super.onDestroy();
     }
 
-
     private void setupRecyclerView(RecyclerView recyclerView) {
 
-        mAdapter = new CharactersAdapter(this, this, mState);
+        mAdapter = new CharactersAdapter(this, this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
-
 
     @Override
     public void showListResponse(RealmList<Character> data) {
@@ -120,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements CharacterListView
 
     @Override
     public void onItemPress() {
+
+
 
     }
 

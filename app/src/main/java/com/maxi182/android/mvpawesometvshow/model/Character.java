@@ -9,12 +9,12 @@ import io.realm.RealmObject;
 public class Character extends RealmObject {
 
     public int mCharacterId;
-    public String Name;
+    public String name;
     public int chapters;
     public int stars;
     public String occupation;
-    public String ImgUrl;
-    public boolean Alive;
+    public String imgUrl;
+    public boolean alive;
     public boolean isFav;
 
 }

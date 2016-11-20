@@ -3,5 +3,9 @@
 
     <string name="db_store_fail">Uneable to store localy</string>
     <string name="db_store_success">Local data store was successful</string>
+    <string name="chapters">Chapters</string>
+    <string name="popularity">Popularity</string>
+
+
 
 </resources>

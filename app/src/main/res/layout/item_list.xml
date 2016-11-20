@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
@@ -19,7 +20,6 @@
         android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                     android:paddingTop="10dp"
                     android:textColor="@color/secondary_text"
                     android:textSize="14sp"
-                    tools:text="Criminal" />
+                    tools:text="Ocupation" />
             </LinearLayout>
         </LinearLayout>
 
@@ -74,7 +74,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:orientation="horizontal">
 
             <TextView
@@ -83,28 +83,59 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/secondary_text"
-                tools:text="10 \n Chapters" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="14dip"
+                tools:text="@string/chapters" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/divider" />
 
-            <TextView
-                android:id="@+id/text_alive"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/layout_progress"
+                android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/secondary_text"
-                tools:text="YES \n Alive" />
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
+
+                    <com.maxi182.android.mvpawesometvshow.utils.DonutProgress
+                        android:id="@+id/donut_progress"
+                        android:layout_width="70dip"
+                        android:layout_height="70dip"
+                        android:layout_gravity="center"
+                        custom:donut_circle_starting_degree="270"
+                        custom:donut_finished_color="@color/bb_yellow"
+                        custom:donut_finished_stroke_width="5dip"
+                        custom:donut_progress="45"
+                        custom:donut_show_text="true"
+                        custom:donut_text_color="@color/colorPrimary"
+                        custom:donut_text_size="14dip"
+                        custom:donut_unfinished_color="@color/gray_progress"
+                        custom:donut_unfinished_stroke_width="5dip" />
+
+                    <TextView
+                        android:id="@+id/text_chaters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/donut_progress"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/colorPrimary"
+                        tools:text="Popularity" />
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/divider" />
-
 
             <FrameLayout
                 android:layout_width="0dip"
@@ -122,9 +153,7 @@
                     android:textColor="@color/secondary_text"
                     tools:text="230 \nStars" />
 
-
             </FrameLayout>
-
 
         </LinearLayout>
 
