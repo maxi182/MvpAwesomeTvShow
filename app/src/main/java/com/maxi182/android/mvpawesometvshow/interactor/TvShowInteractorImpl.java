@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.maxi182.android.mvpawesometvshow.api.RestClient;
 import com.maxi182.android.mvpawesometvshow.model.Character;
+import com.maxi182.android.mvpawesometvshow.model.CharacterDetail;
 import com.maxi182.android.mvpawesometvshow.model.TvShow;
 
 import io.realm.Realm;
@@ -40,6 +41,7 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
 
                 }
             }
+
             @Override
             public void onFailure(Call<RealmList<TvShow>> call, Throwable t) {
 
@@ -49,6 +51,28 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
         });
     }
 
+    @Override
+    public void fetchCharacterDetail(final RequestCallback callback, String id) {
+
+        RestClient.getApiService().getCharactersDetail(id).enqueue(new Callback<CharacterDetail>() {
+
+            @Override
+            public void onResponse(Call<CharacterDetail> call, Response<CharacterDetail> response) {
+
+                if (response.body() != null) {
+
+                    callback.onFetchDataDetailSuccess(response.body());
+
+                }
+            }
+            @Override
+            public void onFailure(Call<CharacterDetail> call, Throwable t) {
+
+                callback.onFetchDataFailed(t.getMessage());
+
+            }
+        });
+    }
 
     private void storeLocal(final RequestCallback callback, final RealmList<TvShow> data) {
 
@@ -105,7 +129,6 @@ public class TvShowInteractorImpl extends RealmManager implements TvShowInteract
             fetchShowsFromServer(callback);
         }
     }
-
 
     @Override
     public void handleFavorite(final RequestCallback callback, final Character character, final int pos) {

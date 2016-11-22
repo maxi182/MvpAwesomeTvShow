@@ -14,6 +14,7 @@ public abstract class RealmManager {
 
     protected Realm mRealm;
 
+
     protected void initRealm() {
         if (mRealm == null || mRealm.isClosed()) {
             mRealm = Realm.getDefaultInstance();

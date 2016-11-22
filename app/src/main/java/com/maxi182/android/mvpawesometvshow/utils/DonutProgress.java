@@ -1,7 +1,7 @@
 package com.maxi182.android.mvpawesometvshow.utils;
 
 /**
- * Created by mac on 19/11/16.
+ * Created by maximiliano.ferraiuolo on 19/11/16.
  */
 
 

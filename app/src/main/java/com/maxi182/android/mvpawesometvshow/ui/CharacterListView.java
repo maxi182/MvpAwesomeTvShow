@@ -12,6 +12,8 @@ public interface CharacterListView {
 
     void showListResponse(RealmList<Character> data);
 
+    void showDetaiResponse(RealmList<Character> data);
+
     void onResponseFailed();
 
     void realmStoreCompleted();
@@ -21,6 +23,8 @@ public interface CharacterListView {
     void showProgress();
 
     void hideProgress();
+
+    void onItemPress();
 
     void onFavChanged(int pos);
 }

@@ -17,11 +17,13 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.maxi182.android.mvpawesometvshow.R;
 import com.maxi182.android.mvpawesometvshow.model.Character;
+import com.maxi182.android.mvpawesometvshow.utils.DonutProgress;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -67,6 +69,15 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
         holder.text_name.setText(user.name);
         holder.text_chapters.setText(characterText(String.valueOf(user.chapters)));
         holder.text_ocupation.setText(user.occupation);
+        holder.donut_progress.setProgress(user.popularity);
+
+        holder.layout_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mCallbacks.onItemPress(position);
+            }
+        });
         holder.img_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +133,8 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
         public TextView text_chapters;
         public ImageView img_pic;
         public ImageView img_fav;
+        public LinearLayout layout_content;
+        public DonutProgress donut_progress;
 
 
         public CharactersAdapterHolder(View itemView) {
@@ -132,11 +145,13 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
             text_chapters = (TextView) itemView.findViewById(R.id.text_chapters);
             img_pic = (ImageView) itemView.findViewById(R.id.img_pic);
             img_fav = (ImageView) itemView.findViewById(R.id.img_fav);
+            layout_content = (LinearLayout) itemView.findViewById(R.id.layout_content);
+            donut_progress = (DonutProgress) itemView.findViewById(R.id.donut_progress);
         }
     }
 
     public interface AdapterCallbacks {
-        void onItemPress();
+        void onItemPress(int pos);
 
         void onFavPress(Character character, int pos);
     }

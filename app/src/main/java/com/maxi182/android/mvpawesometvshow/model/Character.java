@@ -11,6 +11,7 @@ public class Character extends RealmObject {
     public int mCharacterId;
     public String name;
     public int chapters;
+    public int popularity;
     public int stars;
     public String occupation;
     public String imgUrl;

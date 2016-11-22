@@ -3,8 +3,11 @@ package com.maxi182.android.mvpawesometvshow.presenter;
 import com.maxi182.android.mvpawesometvshow.interactor.TvShowInteractorCallback;
 import com.maxi182.android.mvpawesometvshow.interactor.TvShowInteractorImpl;
 import com.maxi182.android.mvpawesometvshow.model.Character;
+import com.maxi182.android.mvpawesometvshow.model.CharacterDetail;
 import com.maxi182.android.mvpawesometvshow.model.TvShow;
 import com.maxi182.android.mvpawesometvshow.ui.CharacterListView;
+
+import java.lang.ref.WeakReference;
 
 import io.realm.RealmList;
 
@@ -15,20 +18,28 @@ import io.realm.RealmList;
 public class CharacterListPresenterImpl implements CharacterListPresenter<CharacterListView>, TvShowInteractorCallback.RequestCallback {
 
     private TvShowInteractorCallback tvShowInteractorCallback;
-    private CharacterListView characterListView;
+    private WeakReference<CharacterListView> characterListView;
 
 
     public CharacterListPresenterImpl(CharacterListView characterListView) {
         this.tvShowInteractorCallback = new TvShowInteractorImpl();
-        this.characterListView = characterListView;
+        this.characterListView = new WeakReference<>(characterListView);
+
     }
 
     @Override
     public void getCharacters() {
         if (characterListView != null) {
-            characterListView.showProgress();
+            getView().showProgress();
         }
         tvShowInteractorCallback.fetchShows(this);
+    }
+
+    @Override
+    public void getCharacterDetails(int id) {
+
+        tvShowInteractorCallback.fetchCharacterDetail(this, String.valueOf(id));
+
     }
 
     @Override
@@ -52,17 +63,25 @@ public class CharacterListPresenterImpl implements CharacterListPresenter<Charac
     @Override
     public void onFetchDataSuccess(RealmList<TvShow> data) {
         if (characterListView != null) {
-            characterListView.showListResponse(data.get(0).results);
-            characterListView.hideProgress();
+            getView().showListResponse(data.get(0).results);
+            getView().hideProgress();
         }
+    }
+
+    @Override
+    public void onFetchDataDetailSuccess(CharacterDetail characterDetail) {
+        if (characterListView != null) {
+
+        }
+
     }
 
     @Override
     public void onFetchDataFailed(String error) {
 
         if (characterListView != null) {
-            characterListView.hideProgress();
-            characterListView.onResponseFailed();
+            getView().hideProgress();
+            getView().onResponseFailed();
         }
     }
 
@@ -71,17 +90,27 @@ public class CharacterListPresenterImpl implements CharacterListPresenter<Charac
 
         if (characterListView != null) {
             if (isSuccess) {
-                characterListView.realmStoreCompleted();
+                getView().realmStoreCompleted();
             } else {
-                characterListView.realmStoreFailed();
+                getView().realmStoreFailed();
 
             }
         }
     }
 
+    private CharacterListView getView() {
+        return (characterListView != null) ? characterListView.get() : null;
+    }
+
     @Override
     public void onFavChanged(int pos) {
-        characterListView.onFavChanged(pos);
+        getView().onFavChanged(pos);
+    }
+
+    @Override
+    public void onItemPress() {
+
+        getView().onItemPress();
     }
 
 }

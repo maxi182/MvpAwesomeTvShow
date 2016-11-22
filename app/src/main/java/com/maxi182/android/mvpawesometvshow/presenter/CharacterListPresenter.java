@@ -10,5 +10,9 @@ public interface CharacterListPresenter<V> extends IBasePresenter<V>{
 
     void getCharacters();
 
+    void getCharacterDetails(int id);
+
     void handleFavorite(Character character, int pos);
+
+
 }
